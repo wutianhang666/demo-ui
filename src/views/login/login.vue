@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div style="width: 30%; height: 10%; border: 1px lavender solid; margin: 150px auto">
     <el-form
-        style="max-width: 400px;"
+        style="max-width: 300px;"
         status-icon
         :model="use"
         :rules="rules"
@@ -32,17 +32,20 @@
 
     </el-form>
   </div>
-
 </template>
 
 <script>
 import {defineComponent, reactive, ref, toRefs} from "vue";
+import {useRouter} from "vue-router";
 
 export default defineComponent({
+  name: 'login',
 
   setup() {
     //表单验证用
     const formRef = ref(null);
+
+    const router = useRouter();
 
     const state = reactive({
       use: {}
@@ -64,6 +67,9 @@ export default defineComponent({
             //调登录接口
             console.log(state.use.name, state.use.password);
             //登录成功，跳转页面
+            router.push({
+              path: './home'
+            });
 
             //登录失败，提示
           }
@@ -80,6 +86,7 @@ export default defineComponent({
       ...methods,
       rules,
       formRef,
+      router
     };
   }
 })
@@ -90,7 +97,7 @@ export default defineComponent({
 .demo-ruleForm {
   justify-content: center;
   margin: 15% auto;
-  //border: 1 px red solid;
+  /*border: 1px red solid;*/
 
 }
 </style>
