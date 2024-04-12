@@ -3,6 +3,7 @@
     <el-form
         style="max-width: 400px;"
         status-icon
+        :model="use"
         :rules="rules"
         ref="formRef"
         label-width="auto"
@@ -25,7 +26,7 @@
       </el-form-item>
 
       <div style="text-align: center; margin-top: 30px">
-        <el-button type="success" size="small" @click="login">登录</el-button>
+        <el-button type="success" size="small" @click="login()">登录</el-button>
         <el-button type="info" size="small" @click="cle">清空</el-button>
       </div>
 
@@ -40,6 +41,7 @@ import {defineComponent, reactive, ref, toRefs} from "vue";
 export default defineComponent({
 
   setup() {
+    //表单验证用
     const formRef = ref(null);
 
     const state = reactive({
@@ -55,21 +57,21 @@ export default defineComponent({
 
       login: () => {
         //获取登录的表单对象
-        formRef.value.validate((isValid, invalidFields) => {
-          console.log(isValid)
-          if (isValid) {
-            // 表单所有元素验证通过，可以提交了
+        formRef.value.validate((valid) => {
+          // console.log("11"+formRef.value)
+          // console.log(valid)
+          if (valid) {
+            //调登录接口
             console.log(state.use.name, state.use.password);
-          } else {
-            console.log(invalidFields)
-            console.log('验证不通过,不能提交,请检查')
+            //登录成功，跳转页面
+
+            //登录失败，提示
           }
         })
       },
 
       cle: () => {
-        state.use.name = '';
-        state.use.passward = '';
+        formRef.value.resetFields();
       },
     }
 
@@ -88,7 +90,7 @@ export default defineComponent({
 .demo-ruleForm {
   justify-content: center;
   margin: 15% auto;
-//border: 1px red solid;
+  //border: 1 px red solid;
 
 }
 </style>
