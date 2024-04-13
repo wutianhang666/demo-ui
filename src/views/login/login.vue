@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 30%; height: 10%; border: 1px lavender solid; margin: 150px auto">
+  <div style="width: 30%; height: 10%; border: 1px darkolivegreen solid; margin: 150px auto">
     <el-form
         style="max-width: 300px;"
         status-icon

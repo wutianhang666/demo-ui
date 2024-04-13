@@ -1,63 +1,40 @@
 <template>
 
-  <el-row class="top">
+  <div class="common-layout">
+    <el-container>
+      <!--菜单-->
+      <AppAside/>
 
-  </el-row>
+      <el-container class="heade-and-main">
+        <!--头部-->
+        <AppHeader/>
 
-  <el-row class="tac">
-    <el-col class="main-left" :span="4">
-      <!--      <h5 class="mb-2">Default colors</h5>-->
-      <el-menu
-          default-active="2"
-          class="el-menu-vertical-demo"
-          @open="handleOpen"
-          @close="handleClose"
-      >
-        <el-sub-menu index="1">
-          <template #title>
-            <el-icon>
-              <location/>
-            </el-icon>
-            <span>菜单一</span>
-          </template>
-          <el-menu-item style="margin-left: 30px" index="1-1">item one</el-menu-item>
-          <el-menu-item style="margin-left: 30px" index="1-2">item two</el-menu-item>
-          <el-menu-item style="margin-left: 30px" index="1-3">item two</el-menu-item>
-        </el-sub-menu>
-
-        <el-menu-item index="2">
-          <el-icon>
-            <icon-menu/>
-          </el-icon>
-          <span>Navigator Two</span>
-        </el-menu-item>
-
-        <el-menu-item index="3">
-          <el-icon>
-            <document/>
-          </el-icon>
-          <span>Navigator Three</span>
-        </el-menu-item>
-
-        <el-menu-item index="4">
-          <el-icon>
-            <setting/>
-          </el-icon>
-          <span>Navigator Four</span>
-        </el-menu-item>
-      </el-menu>
-    </el-col>
-
-    <el-col class="main-right" :span="19"></el-col>
-  </el-row>
+        <!--内容部分-->
+        <el-main style="height: 705px; background-color: #f4f4f5; border: 1px red solid">
+          <el-scrollbar>
+            <RouterView/>
+          </el-scrollbar>
+        </el-main>
+      </el-container>
+    </el-container>
+  </div>
 </template>
 
 <script>
-import {reactive, toRefs} from "vue";
+import {defineComponent, reactive, toRefs} from "vue";
+import {useRouter} from "vue-router";
+import AppAside from "@/layout/AppAside.vue";
+import AppHeader from "@/layout/AppHeader.vue";
 
-export default {
+export default defineComponent({
   name: "home",
+  components: {
+    AppHeader,
+    AppAside,
+  },
+
   setup() {
+    const router = useRouter();
 
     const state = reactive({
       use: {},
@@ -66,53 +43,44 @@ export default {
 
     const methods = {
 
-      login: () => {
-        //获取登录的表单对象
-        formRef.value.validate((valid) => {
-          // console.log("11"+formRef.value)
-          // console.log(valid)
-          if (valid) {
-            //调登录接口
-            console.log(state.use.name, state.use.password);
-            //登录成功，跳转页面
-            router.push({
-              path: './home'
-            });
+      vipSign: () => {
+        console.log("1111111111111")
+        router.push({
+          path: './vipSign'
+        });
 
-            //登录失败，提示
-          }
-        })
       },
     }
 
     return {
       ...toRefs(state),
       ...methods,
+      router,
     };
   }
-}
+})
 </script>
 
 <style scoped>
-
-.top {
-  height: 50px;
-  border: 1px red solid;
+.el-aside {
+  width: 200px;
+  height: 760px;
+  background-color: #dedfe0;
 }
 
-.tac {
-  height: 700px;
-  border: 1px red solid;
+
+.heade-and-main {
+  flex-direction: column;
+  height: 100vh;
 }
 
-.main-left {
-  height: 700px;
-  border: 1px green solid;
+.el-menu-vertical-demo {
+  background-color: #C8C8C8;
+  height: 750px;
 }
 
-.main-right {
-  height: 700px;
-  border: 1px turquoise solid;
+.el-menu {
+  background-color: #C8C8C8;
 }
 
 </style>
