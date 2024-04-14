@@ -1,6 +1,6 @@
 <template>
 
-  <h1>会员登记页面</h1>
+  <h2>会员登记页面</h2>
 </template>
 
 <script>

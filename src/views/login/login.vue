@@ -1,14 +1,15 @@
 <template>
-  <div style="width: 30%; height: 10%; border: 1px darkolivegreen solid; margin: 150px auto">
+  <div class="login">
     <el-form
         style="max-width: 300px;"
         status-icon
+        size="large"
         :model="use"
         :rules="rules"
         ref="formRef"
         label-width="auto"
-        class="demo-ruleForm"
     >
+      <h2>登录</h2>
       <el-form-item label="用户名" prop="name">
         <el-input
             v-model="use.name"
@@ -26,8 +27,8 @@
       </el-form-item>
 
       <div style="text-align: center; margin-top: 30px">
-        <el-button type="success" size="small" @click="login()">登录</el-button>
-        <el-button type="info" size="small" @click="cle">清空</el-button>
+        <el-button type="success" size="default" @click="login()">登录</el-button>
+        <el-button type="info" size="default" @click="cle">清空</el-button>
       </div>
 
     </el-form>
@@ -94,10 +95,27 @@ export default defineComponent({
 </script>
 
 <style>
-.demo-ruleForm {
-  justify-content: center;
-  margin: 15% auto;
-  /*border: 1px red solid;*/
 
+.login {
+  //width: 30%;
+  //height: 10%;
+  //border: 1px darkolivegreen solid;
+  //margin: 150px auto;
+  background-color: beige;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .el-form {
+    margin-top: -100px;
+    width: 30%;
+    background-color: #e9e9eb;
+    padding: 30px;
+    border-radius: 10px;
+
+    .el-form-item {
+      margin-top: 20px;
+    }
+  }
 }
 </style>

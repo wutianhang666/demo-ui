@@ -1,12 +1,13 @@
 const routes = [
     // 默认访问页面
     {
-        path: '/',
+        path: '/login',
+        name: 'login',
         component: () => import('@/views/login/login.vue'),
     },
     {
-        path: '/home',
-        name: 'home',
+        path: '/',
+        // name: 'home',
         component: () => import('@/views/home/home'),
         /*把下面子页面都显示在/home页面的主内容区*/
         children: [
@@ -17,10 +18,23 @@ const routes = [
                 component: () => import('@/views/vipSign/vipSign'),
             },
             {
-                path: 'login',
-                component: () => import('@/views/login/login'),
+                path: 'role',
+                component: () => import('@/views/role/role'),
+            },
+            {
+                path: 'menuIndex',
+                component: () => import('@/views/menu/menuIndex'),
+            },
+            {
+                path: 'vipSign',
+                component: () => import('@/views/vipSign/vipSign.vue'),
             },
         ]
+    },
+    {
+        path: '/menuIndex',
+        name: 'menuIndex',
+        component: () => import('@/views/menu/menuIndex.vue'),
     },
 
 ];
