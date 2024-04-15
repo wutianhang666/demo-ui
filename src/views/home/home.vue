@@ -44,11 +44,9 @@ export default defineComponent({
     const methods = {
 
       vipSign: () => {
-        console.log("1111111111111")
         router.push({
           path: './vipSign'
         });
-
       },
     }
 
@@ -63,7 +61,7 @@ export default defineComponent({
 
 <style scoped>
 .el-aside {
-  width: 200px;
+  //width: 200px;
   height: 100vh;
   background-color: #dedfe0;
 }

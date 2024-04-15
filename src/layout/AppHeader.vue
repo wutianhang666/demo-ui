@@ -1,9 +1,9 @@
 <template>
   <el-header>
     <!--    图标      -->
-    <el-icon>
-      <Expand/>
-      <Fold/>
+    <el-icon @click="flag = !flag">
+      <Expand v-show="flag"/>
+      <Fold v-show="!flag"/>
     </el-icon>
 
     <!--     面包削     -->
@@ -37,7 +37,8 @@
 
 <script>
 import {Expand, Fold} from "@element-plus/icons";
-import {defineComponent} from "vue";
+import {defineComponent, reactive, ref, toRefs} from "vue";
+import {isCollapse} from "./isCollapse.js";
 
 export default defineComponent({
   name: "AppHeader",
@@ -46,6 +47,21 @@ export default defineComponent({
     Fold,
   },
 
+  setup() {
+
+    const flag = ref(isCollapse.valueOf());
+
+    const state = reactive({
+      count: 1,
+    });
+
+    const methods = {}
+    return {
+      ...toRefs(state),
+      flag,
+      methods,
+    }
+  }
 })
 </script>
 
