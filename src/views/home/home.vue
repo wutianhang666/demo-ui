@@ -64,7 +64,7 @@ export default defineComponent({
 <style scoped>
 .el-aside {
   width: 200px;
-  height: 760px;
+  height: 100vh;
   background-color: #dedfe0;
 }
 

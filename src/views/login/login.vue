@@ -69,7 +69,7 @@ export default defineComponent({
             console.log(state.use.name, state.use.password);
             //登录成功，跳转页面
             router.push({
-              path: './home'
+              path: './sys/home'
             });
 
             //登录失败，提示
@@ -97,25 +97,27 @@ export default defineComponent({
 <style>
 
 .login {
-  //width: 30%;
-  //height: 10%;
-  //border: 1px darkolivegreen solid;
-  //margin: 150px auto;
+/ / width: 30 %;
+/ / height: 10 %;
+/ / border: 1 px darkolivegreen solid;
+/ / margin: 150 px auto;
   background-color: beige;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  .el-form {
-    margin-top: -100px;
-    width: 30%;
-    background-color: #e9e9eb;
-    padding: 30px;
-    border-radius: 10px;
 
-    .el-form-item {
-      margin-top: 20px;
-    }
-  }
+.el-form {
+  margin-top: -100px;
+  width: 30%;
+  background-color: #e9e9eb;
+  padding: 30px;
+  border-radius: 10px;
+
+.el-form-item {
+  margin-top: 20px;
+}
+
+}
 }
 </style>
