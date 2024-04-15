@@ -1,16 +1,22 @@
 <template>
   <el-aside>
-    <h2>一路有洗</h2>
+<!--    <h2>一路有洗</h2>-->
+    <el-radio-group v-model="isCollapse" style="margin-bottom: 20px">
+      <el-radio-button :value="false">expand</el-radio-button>
+      <el-radio-button :value="true">collapse</el-radio-button>
+    </el-radio-group>
     <el-menu
         default-active="1"
         class="el-menu-vertical-demo"
-        active-text-color="#ffd04b"
+        active-text-color="#000000"
         background-color="#e9e9eb"
         text-color="#000000"
+        :collapse="isCollapse"
         @open="handleOpen"
         @close="handleClose"
         router
     >
+
       <el-menu-item index="home">
         <el-icon>
           <Discount/>
@@ -50,7 +56,7 @@
 </template>
 
 <script>
-import {defineComponent} from "vue";
+import {defineComponent, ref} from "vue";
 import {Setting, Discount, Edit} from "@element-plus/icons";
 
 export default defineComponent({
@@ -58,7 +64,15 @@ export default defineComponent({
     Setting,
     Discount,
     Edit,
-  }
+  },
+
+  setup() {
+    const isCollapse = ref(true)
+
+    return {
+      isCollapse
+    };
+  },
 
 })
 </script>
