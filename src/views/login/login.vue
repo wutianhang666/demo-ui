@@ -97,15 +97,12 @@ export default defineComponent({
 <style>
 
 .login {
-/ / width: 30 %;
-/ / height: 10 %;
-/ / border: 1 px darkolivegreen solid;
-/ / margin: 150 px auto;
   background-color: beige;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+}
 
 .el-form {
   margin-top: -100px;
@@ -113,11 +110,9 @@ export default defineComponent({
   background-color: #e9e9eb;
   padding: 30px;
   border-radius: 10px;
+}
 
 .el-form-item {
   margin-top: 20px;
-}
-
-}
 }
 </style>
