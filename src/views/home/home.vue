@@ -10,7 +10,7 @@
         <AppHeader/>
 
         <!--内容部分-->
-        <el-main style="height: 705px; background-color: #f4f4f5; border: 1px red solid; overflo:hidden">
+        <el-main style="height: 705px; background-color: #f4f4f5; overflo:hidden">
           <el-scrollbar>
             <RouterView/>
           </el-scrollbar>
