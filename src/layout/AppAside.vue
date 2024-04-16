@@ -12,6 +12,7 @@
         background-color="#e9e9eb"
         text-color="#000000"
         :collapse=flag
+        :collapse-transition=false
         @open="handleOpen"
         @close="handleClose"
         router
