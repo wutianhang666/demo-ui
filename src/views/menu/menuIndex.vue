@@ -7,11 +7,11 @@
         <div style="display: flex; justify-content: left; align-items: center;height: 30px">
           <el-form :inline="true" :model="searchData" style="margin-top: 17px">
             <el-form-item label="名称">
-              <el-input v-model="searchData.name" placeholder="请输入菜单名称" clearable/>
+              <el-input v-model="searchData.name" placeholder="请输入名称"/>
             </el-form-item>
           </el-form>
 
-          <el-button type="success" size="default" @click="searchData">查询</el-button>
+          <el-button type="success" size="default" @click="searchDataList">查询</el-button>
           <el-button type="info" size="default" @click="clearSearch">重置</el-button>
         </div>
       </template>
@@ -23,7 +23,7 @@
         <div style="display: flex; justify-content: space-between; align-items: center">
           <span>查询列表</span>
           <div>
-            <el-button type="primary">导出</el-button>
+            <el-button type="primary">新增</el-button>
             <el-button type="button">刷新</el-button>
           </div>
         </div>
@@ -35,11 +35,16 @@
           style="width: 100%; margin-bottom: 20px"
           row-key="id"
           border
+          show-header
+          highlight-current-row="true"
           default-expand-all
       >
-        <el-table-column prop="date" label="Date" sortable/>
-        <el-table-column prop="name" label="Name" sortable/>
-        <el-table-column prop="address" label="Address" sortable/>
+        <el-table-column prop="date" :label="item.name" :key="index" v-for="(item, index) in tableDate"/>
+<!--        <el-table-column prop="name" label="路径" sortable/>-->
+<!--        <el-table-column prop="address" label="图标" sortable/>-->
+<!--        <el-table-column prop="address" label="描述" sortable/>-->
+<!--        <el-table-column prop="address" label="排序" sortable/>-->
+<!--        <el-table-column prop="address" label="操作" sortable/>-->
       </el-table>
     </el-card>
   </div>
@@ -58,7 +63,7 @@ export default defineComponent({
       tableDate: [
         {
           id: 1,
-          date: '2016-05-02',
+          date: '123',
           name: 'wangxiaohu',
           address: 'No. 189, Grove St, Los Angeles',
         },
@@ -102,7 +107,7 @@ export default defineComponent({
       /**
        * 获取分页数据
        */
-      searchData: () => {
+      searchDataList: () => {
         state.loading = true;
         getAllMenu({
           ...state.searchData,
