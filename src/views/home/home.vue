@@ -59,11 +59,14 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+@import "../../index.less";
+
 .el-aside {
   //width: 200px;
   height: 100vh;
-  background-color: #dedfe0;
+  //background-color: #dedfe0;
+  background-color: @Color;
 }
 
 
