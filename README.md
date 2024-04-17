@@ -24,3 +24,6 @@ yarn lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 #安装less    npm i less less-loader -D
+
+#图标     npm install @element-plus/icons-vue
+

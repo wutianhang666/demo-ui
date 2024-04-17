@@ -4,6 +4,7 @@ import ElementPlus from 'element-plus' //全局引入
 import 'element-plus/dist/index.css'
 // import "@/styles/index.scss"
 import '@element-plus/icons' //图标库
+import 'element-plus/theme-chalk/index.css';
 
 //路由
 import {createRouter, createWebHistory} from "vue-router";

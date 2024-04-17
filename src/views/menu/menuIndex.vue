@@ -23,81 +23,244 @@
         <div style="display: flex; justify-content: space-between; align-items: center">
           <span>查询列表</span>
           <div>
-            <el-button type="primary">新增</el-button>
-            <el-button type="button">刷新</el-button>
+            <el-button type="primary" @click="addNewMenu">新增</el-button>
+            <el-button type="button" @click="searchDataList">刷新</el-button>
           </div>
         </div>
       </template>
 
       <!--表格-->
       <el-table
-          :data="tableDate"
-          style="width: 100%; margin-bottom: 20px"
-          row-key="id"
-          border
-          show-header
-          highlight-current-row="true"
-          default-expand-all
+        :data="tableDate"
+        style="width: 100%; margin-bottom: 20px"
+        row-key="id"
+        border
+        @selection-change="handleSelectionChange"
+        show-header
+        highlight-current-row="true"
+        default-expand-all="true"
+        :header-cell-style="{background:'#eef1f6',color:'#606266'}"
       >
-        <el-table-column prop="date" :label="item.name" :key="index" v-for="(item, index) in tableDate"/>
-<!--        <el-table-column prop="name" label="路径" sortable/>-->
-<!--        <el-table-column prop="address" label="图标" sortable/>-->
-<!--        <el-table-column prop="address" label="描述" sortable/>-->
-<!--        <el-table-column prop="address" label="排序" sortable/>-->
-<!--        <el-table-column prop="address" label="操作" sortable/>-->
+        <el-table-column type="selection" width="45"/>
+        <el-table-column prop="name" label="名称" align="center"/>
+        <el-table-column prop="path" label="路径" align="center" sortable/>
+        <el-table-column prop="icon" label="图标" align="center" sortable/>
+        <el-table-column prop="description" label="描述" align="center" sortable/>
+        <el-table-column prop="sort" label="排序" align="center" sortable/>
+        <el-table-column prop="address" label="操作" align="center" width="200px" sortable>
+          <template #default="scope">
+            <div style="display: flex; justify-content: right; padding-right: 25px">
+              <!--新增按钮-->
+              <el-tooltip
+                class="box-item"
+                effect="dark"
+                content="新增下级菜单"
+                placement="top-start"
+              >
+                <el-button
+                  size="small"
+                  title="新增下级菜单"
+                  v-if="scope.row.parentId===''"
+                  @click="addChild(scope.$index, scope.row)"
+                >
+                  <el-icon style="vertical-align: middle">
+                    <Plus/>
+                  </el-icon>
+                </el-button>
+              </el-tooltip>
+
+
+              <!--编辑按钮-->
+              <el-tooltip
+                class="box-item"
+                effect="dark"
+                content="编辑"
+                placement="top-start"
+              >
+                <el-button
+                  type="primary"
+                  size="small"
+                  title="编辑"
+                  @click="handleEdit(scope.$index, scope.row)"
+                >
+                  <el-icon style="vertical-align: middle">
+                    <Edit/>
+                  </el-icon>
+                </el-button>
+              </el-tooltip>
+
+
+              <!--删除按钮-->
+              <el-tooltip
+                class="box-item"
+                effect="dark"
+                content="删除"
+                placement="top-start"
+              >
+                <el-button
+                  size="small"
+                  type="danger"
+                  title="删除"
+                  @click="handleDelete(scope.$index, scope.row)"
+                >
+                  <el-icon style="vertical-align: middle">
+                    <Delete/>
+                  </el-icon>
+                </el-button>
+              </el-tooltip>
+
+            </div>
+          </template>
+        </el-table-column>
       </el-table>
     </el-card>
   </div>
+
+  <el-dialog
+      v-model="dialogVisible"
+      title="菜单新增"
+      width="42%"
+      :before-close="close"
+  >
+    <el-form
+        style="max-width: 600px; padding-left: 40px"
+        size="default"
+        :model="sysMenu"
+        :rules="rules"
+        ref="formRef"
+        :inline="true"
+        label-width="auto"
+    >
+      <el-form-item label="用户名" prop="name">
+        <el-input
+            v-model="sysMenu.name"
+            autocomplete="off"
+            placeholder="请输入菜单名称"
+            style="width: 200px"/>
+      </el-form-item>
+      <el-form-item label="路径" prop="path">
+        <el-input
+            v-model="sysMenu.path"
+            autocomplete="off"
+            placeholder="请输入路径"
+            style="width: 200px"/>
+      </el-form-item>
+      <el-form-item label="图标" prop="icon">
+        <el-input
+            v-model="sysMenu.icon"
+            autocomplete="off"
+            placeholder="请选择图标"
+            style="width: 200px"/>
+      </el-form-item>
+      <el-form-item label="描述" prop="description">
+        <el-input
+            v-model="sysMenu.description"
+            autocomplete="off"
+            placeholder="请输入路径描述"
+            style="width: 200px"/>
+      </el-form-item>
+      <el-form-item label="排序" prop="sort">
+        <el-input
+            v-model="sysMenu.sort"
+            autocomplete="off"
+            placeholder="请输入排序"
+            style="width: 200px"/>
+      </el-form-item>
+      <el-form-item label="父级菜单" prop="parentId">
+        <el-input
+            v-model="sysMenu.parentId"
+            autocomplete="off"
+            style="width: 200px"/>
+      </el-form-item>
+    </el-form>
+
+    <template #footer>
+      <div class="新增菜单">
+        <el-button @click="modelCancel">取消</el-button>
+        <el-button type="primary" @click="add">
+          确定
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
 </template>
 
 <script>
-import {defineComponent, reactive, toRefs} from 'vue'
+import {defineComponent, reactive, ref, toRefs} from 'vue'
 import {getAllMenu} from "@/views/menu/api/menuIndexApi";
+import {Edit, Plus, Delete} from "@element-plus/icons";
 
 export default defineComponent({
   name: "menuIndex",
+
+  components: {
+    Edit,
+    Plus,
+    Delete,
+  },
   setup() {
+    //多选
+    const selectedRows = ref([]);
+    //弹框显示
+    const dialogVisible = ref(false)
+    //表单验证用
+    const formRef = ref(null);
+
+    const rules = {
+      name: [{required: true, message: '此项为必填'}],
+      path: [{required: true, message: '此项为必填'}],
+      sort: [{required: true, message: '此项为必填'}],
+      description: [{required: true, message: '此项为必填'}],
+    };
+
     const state = reactive({
       searchData: {},
       loading: false,
+      sysMenu: {},
       tableDate: [
         {
           id: 1,
-          date: '123',
-          name: 'wangxiaohu',
-          address: 'No. 189, Grove St, Los Angeles',
+          path: '/123',
+          name: '1',
+          description: '描述1',
+          parentId: ''
         },
         {
           id: 2,
-          date: '2016-05-04',
-          name: 'wangxiaohu',
-          address: 'No. 189, Grove St, Los Angeles',
+          path: '/2',
+          name: '2',
+          description: '描述2',
+          parentId: ''
         },
         {
           id: 3,
-          date: '2016-05-01',
-          name: 'wangxiaohu',
-          address: 'No. 189, Grove St, Los Angeles',
+          path: '/3',
+          name: '3',
+          description: '描述3',
+          parentId: '',
           children: [
             {
               id: 31,
-              date: '2016-05-01',
-              name: 'wangxiaohu',
-              address: 'No. 189, Grove St, Los Angeles',
+              path: '/4',
+              name: '4',
+              description: '描述4',
+              parentId: '111'
             },
             {
               id: 32,
-              date: '2016-05-01',
-              name: 'wangxiaohu',
-              address: 'No. 189, Grove St, Los Angeles',
+              path: '/5',
+              name: '5',
+              description: '描述5',
+              parentId: '222'
             },
           ],
         },
         {
-          id: 4,
-          date: '2016-05-03',
-          name: 'wangxiaohu',
-          address: 'No. 189, Grove St, Los Angeles',
+          id: 6,
+          path: '/6',
+          name: '6',
+          description: '描述6',
+          parentId: ''
         },
       ]
     })
@@ -117,16 +280,112 @@ export default defineComponent({
           state.tableData = data?.tableDate || [];
         });
       },
+
+      /**
+       * 新增按钮
+       */
+      addNewMenu: () => {
+        dialogVisible.value = true;
+        state.sysMenu = {};
+      },
+
+      /**
+       * 新增下级菜单
+       */
+      addChild: (index, row) => {
+
+        console.log("index" + index)
+        console.log("row" + row)
+
+        if (row.id) {
+          dialogVisible.value = true;
+          state.sysMenu.parentId = row.id;
+          state.sysMenu.parentNmme = row.name;
+        }
+      },
+
+      /**
+       * 编辑
+       */
+      handleEdit: (index, row) => {
+
+        console.log("index" + index)
+        console.log("row" + row)
+
+        state.sysMenu = row;
+        if (row.id) {
+          dialogVisible.value = true;
+        }
+      },
+
+      /**
+       * 删除
+       */
+      handleDelete: (index, row) => {
+        console.log("index" + index)
+        console.log("row" + row)
+        //调接口
+      },
+
+      handleSelectionChange: (val) => {
+        selectedRows.value = val;
+        console.log(selectedRows.value);
+      },
+
+      /**
+       * 弹框点击❌关闭
+       */
+      close: () => {
+        dialogVisible.value = false;
+        //清空表单验证
+        formRef.value.resetFields();
+      },
+
+      /**
+       * 弹框点击取消关闭model
+       */
+      modelCancel: () => {
+        dialogVisible.value = false;
+        formRef.value.resetFields();
+      },
+
+      /**
+       * 弹框点击确定保存
+       */
+      add: () => {
+        //获取登录的表单对象
+        formRef.value.validate((valid) => {
+          if (valid) {
+            //调新增接口
+            console.log(state.sysMenu.name, state.sysMenu.path);
+            dialogVisible.value = false;
+            state.sysMenu = {};
+            methods.searchDataList();
+          }
+        })
+
+        console.log("sysMenu " + state.sysMenu.name + state.sysMenu.path);
+      },
+
+      /**
+       * 模糊查询 重置
+       */
+      clearSearch: () => {
+        state.searchData = {};
+      },
     }
 
     return {
       ...toRefs(state),
       ...methods,
+      dialogVisible,
+      rules,
+      formRef,
     }
   }
 })
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 
 </style>
