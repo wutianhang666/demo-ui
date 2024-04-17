@@ -11,9 +11,9 @@
 
         <!--内容部分-->
         <el-main style="height: 705px; background-color: #f4f4f5; overflo:hidden">
-<!--          <el-scrollbar>-->
-            <RouterView/>
-<!--          </el-scrollbar>-->
+          <!--          <el-scrollbar>-->
+          <RouterView/>
+          <!--          </el-scrollbar>-->
         </el-main>
       </el-container>
     </el-container>
@@ -64,7 +64,7 @@ export default defineComponent({
 
 .el-aside {
   //width: 200px;
-  height: 98vh;
+  height: 97vh;
   //background-color: #dedfe0;
   background-color: @Color;
 }
@@ -72,7 +72,7 @@ export default defineComponent({
 
 .heade-and-main {
   flex-direction: column;
-  height: 98vh;
+  height: 97vh;
 }
 
 .el-menu-vertical-demo {
