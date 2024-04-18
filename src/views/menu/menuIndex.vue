@@ -275,16 +275,16 @@ export default defineComponent({
        * 获取分页数据
        */
       searchDataList: () => {
-        // state.loading = true;
-        // getAllMenu({
-        //   ...state.searchData,
-        // }).then((data) => {
-        //   console.log(data);
-        //   console.log(data.data);
-        //   console.log("333", state.tableDate)
-        //   state.tableDate = data.data || [];
-        //   state.loading = false;
-        // });
+        state.loading = true;
+        getAllMenu({
+          ...state.searchData,
+        }).then((data) => {
+          console.log(data);
+          console.log(data.data);
+          console.log("333", state.tableDate)
+          state.tableDate = data.data || [];
+          state.loading = false;
+        })
       },
 
       /**
