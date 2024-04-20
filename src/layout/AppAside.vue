@@ -37,14 +37,6 @@
         <el-menu-item style="padding-left: 70px" index="./user"><span>用户管理</span></el-menu-item>
       </el-sub-menu>
 
-      <!--      <el-sub-menu index="2">-->
-      <!--        <template #title>-->
-      <!--          <el-icon><Edit /></el-icon>-->
-      <!--          <span>会员登记</span>-->
-      <!--        </template>-->
-      <!--        <el-menu-item style="margin-left: 30px" index="./vipSign"><span>会员登记</span></el-menu-item>-->
-      <!--      </el-sub-menu>-->
-
       <el-menu-item index="./vipSign">
         <el-icon>
           <Edit/>
