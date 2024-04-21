@@ -40,6 +40,7 @@
           highlight-current-row="true"
           default-expand-all="true"
           :header-cell-style="{background:'#eef1f6',color:'#606266'}"
+          :row-style="menuMain"
       >
         <el-table-column type="selection" width="45"/>
         <el-table-column prop="name" label="名称" align="center"/>
@@ -168,9 +169,9 @@
             placeholder="请输入排序"
             style="width: 200px"/>
       </el-form-item>
-      <el-form-item label="父级菜单" prop="parentId">
+      <el-form-item label="父级菜单" prop="parentName">
         <el-input
-            v-model="sysMenu.parentId"
+            v-model="sysMenu.parentName"
             autocomplete="off"
             disabled
             style="width: 200px"/>
@@ -307,6 +308,7 @@ export default defineComponent({
                 state.sysMenu = {};
                 dialogVisible.value = false;
                 formRef.value.resetFields();
+
                 methods.searchDataList();
                 ElMessage({message: '操作成功', type: 'success',})
               }
@@ -359,8 +361,8 @@ export default defineComponent({
        */
       handleEdit: (index, row) => {
 
-        console.log("index" + index)
-        console.log("row" + row)
+        console.log("index", index)
+        console.log("row", row.valueOf())
 
         state.sysMenu = row;
         if (row.id) {
@@ -376,18 +378,35 @@ export default defineComponent({
       /**
        * 弹框点击❌关闭
        */
-      close: () => {
+      close: (refName) => {
         dialogVisible.value = false;
-        //清空表单验证
-        formRef.value.resetFields();
+        state.sysMenu = {};
+
+        //清空表单验证，这个有问题会修改表格数据
+        // formRef.value.resetFields();
+
+        // 表单重置
+          if (this.$refs[refName]) {
+            this.$nextTick(() => {
+              this.$refs[refName].resetFields()
+            })
+          }
       },
 
       /**
        * 弹框点击取消关闭model
        */
-      modelCancel: () => {
+      modelCancel: (refName) => {
         dialogVisible.value = false;
-        formRef.value.resetFields();
+        state.sysMenu = {};
+        // formRef.value.resetFields();
+
+        // 表单重置
+        if (this.$refs[refName]) {
+          this.$nextTick(() => {
+            this.$refs[refName].resetFields()
+          })
+        }
       },
 
       /**
@@ -396,6 +415,16 @@ export default defineComponent({
       clearSearch: () => {
         state.searchData = {};
         methods.searchDataList();
+      },
+
+
+      menuMain: (data) => {
+        if (data.row.children !== null) {
+          return {
+            backgroundColor: "#FFEFD5",
+            fontWeight: 700
+          };
+        }
       },
     }
 
@@ -416,5 +445,8 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-
+//表格鼠标移入改变背景颜色
+.el-table {
+  --el-table-row-hover-bg-color: rgba(14, 95, 255, 0.5);
+}
 </style>
