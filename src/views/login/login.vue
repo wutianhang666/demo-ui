@@ -10,9 +10,9 @@
         label-width="auto"
     >
       <h2>登录</h2>
-      <el-form-item label="用户名" prop="name">
+      <el-form-item label="用户名" prop="loginName">
         <el-input
-            v-model="use.name"
+            v-model="use.loginName"
             autocomplete="off"
             placeholder="请输入用户名"
             style="width: 300px"/>
@@ -38,6 +38,8 @@
 <script>
 import {defineComponent, reactive, ref, toRefs} from "vue";
 import {useRouter} from "vue-router";
+import {login} from "@/views/login/api/loginApi";
+import {ElMessage} from "element-plus";
 
 export default defineComponent({
   name: 'login',
@@ -66,11 +68,19 @@ export default defineComponent({
           // console.log(valid)
           if (valid) {
             //调登录接口
-            console.log(state.use.name, state.use.password);
-            //登录成功，跳转页面
-            router.push({
-              path: './sys/home'
+
+            login(state.use).then((data) => {
+              if (data.code === 1) {
+                ElMessage({message: '欢迎登录', type: 'success',})
+                //登录成功，跳转页面
+                router.push({
+                  path: './sys/home'
+                });
+              } else {
+                ElMessage({message: data.message, type: 'warning'});
+              }
             });
+
 
             //登录失败，提示
           }

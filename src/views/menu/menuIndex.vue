@@ -123,7 +123,7 @@
       v-model="dialogVisible"
       title="菜单新增"
       width="45%"
-      :before-close="close"
+      @closed="close"
   >
     <el-form
         style="max-width: 600px; padding-left: 40px"
@@ -302,9 +302,9 @@ export default defineComponent({
                 : addMenu(state.sysMenu);
 
             afterApi.then((response) => {
-              console.log("11111111111", response.data)
+              // console.log("11111111111", response.data)
               if (response.code === 1) {
-                console.log("222222222", response.code)
+                // console.log("222222222", response.code)
                 state.sysMenu = {};
                 dialogVisible.value = false;
                 formRef.value.resetFields();
@@ -378,35 +378,21 @@ export default defineComponent({
       /**
        * 弹框点击❌关闭
        */
-      close: (refName) => {
+      close: () => {
         dialogVisible.value = false;
         state.sysMenu = {};
 
         //清空表单验证，这个有问题会修改表格数据
         // formRef.value.resetFields();
-
-        // 表单重置
-          if (this.$refs[refName]) {
-            this.$nextTick(() => {
-              this.$refs[refName].resetFields()
-            })
-          }
       },
 
       /**
        * 弹框点击取消关闭model
        */
-      modelCancel: (refName) => {
+      modelCancel: () => {
         dialogVisible.value = false;
         state.sysMenu = {};
         // formRef.value.resetFields();
-
-        // 表单重置
-        if (this.$refs[refName]) {
-          this.$nextTick(() => {
-            this.$refs[refName].resetFields()
-          })
-        }
       },
 
       /**
