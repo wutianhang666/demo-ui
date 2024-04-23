@@ -5,6 +5,7 @@ import 'element-plus/dist/index.css'
 // import "@/styles/index.scss"
 import '@element-plus/icons' //图标库
 import 'element-plus/theme-chalk/index.css';
+import { createPinia } from 'pinia'
 
 //路由
 import {createRouter, createWebHistory} from "vue-router";
@@ -15,7 +16,10 @@ const router = createRouter({
     routes
 })
 
+const pinia = createPinia(); // 创建Pinia实例
+
 const app = createApp(App)
 app.use(ElementPlus)
 app.use(router)
+app.use(pinia)
 app.mount('#app')

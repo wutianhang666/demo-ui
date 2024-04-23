@@ -27,3 +27,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 #图标     npm install @element-plus/icons-vue
 
+安装pinia      npm install pinia
+

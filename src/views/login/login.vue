@@ -40,11 +40,13 @@ import {defineComponent, reactive, ref, toRefs} from "vue";
 import {useRouter} from "vue-router";
 import {login} from "@/views/login/api/loginApi";
 import {ElMessage} from "element-plus";
+import {useTokenStore} from "@/stores/token"
 
 export default defineComponent({
   name: 'login',
 
   setup() {
+    const store = useTokenStore();
     //表单验证用
     const formRef = ref(null);
 
@@ -55,7 +57,7 @@ export default defineComponent({
     });
 
     const rules = {
-      name: [{required: true, message: '此项为必填'}],
+      loginName: [{required: true, message: '此项为必填'}],
       password: [{required: true, message: '此项为必填'}],
     };
 
@@ -72,6 +74,8 @@ export default defineComponent({
             login(state.use).then((data) => {
               if (data.code === 1) {
                 ElMessage({message: '欢迎登录', type: 'success',})
+                //保存token
+                store.saveToken(data.data);
                 //登录成功，跳转页面
                 router.push({
                   path: './sys/home'
