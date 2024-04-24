@@ -9,10 +9,10 @@ export const useTokenStore = defineStore('mytoken', () => {
     //处理token转化为token对象
     const token = computed(() => {
         try {
-            return JSON.parse(tokenJson.value || window.localStorage.setItem("Token") || "{}");
+            return JSON.parse(tokenJson.value || window.localStorage.getItem("token") || sessionStorage.getItem("token") || "{}");
         }catch (err){
             ElMessage.error("json字符串格式不对，转化对象时失败...");
-            window.localStorage.setItem("Token", "")
+            window.localStorage.setItem("token", "")
             throw err
         }
     })
@@ -21,7 +21,8 @@ export const useTokenStore = defineStore('mytoken', () => {
     function saveToken(data){
         tokenJson.value = data;
         //token保存浏览器
-        window.localStorage.setItem("Token",data);
+        window.localStorage.setItem("token",data);
+        sessionStorage.setItem("token", data);
     }
 
     return {token, saveToken}
