@@ -43,16 +43,4 @@ const routes = [
 
 ];
 
-// router.beforeEach((to, from, next) => {
-//     //判断目标地址是否需要登录状态验证
-//     if (to.matched.some((r) => r.meta?.requiresAuth)) {
-//         const store = useTokenStore()
-//         if (!store.token.token) {
-//             next({name: "login", query: {redirect: to.fullPath}})
-//         }
-//     }
-//
-//     next()
-// })
-
 export default routes;
